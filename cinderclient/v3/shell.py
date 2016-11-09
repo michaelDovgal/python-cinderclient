@@ -332,8 +332,7 @@ def do_show(cs, args):
 
     info.pop('links', None)
     utils.print_dict(info,
-                     formatters=['metadata', 'volume_image_metadata',
-                                 'attachments'])
+                     formatters=['metadata', 'volume_image_metadata'])
 
 
 class CheckSizeArgForCreate(argparse.Action):
@@ -1265,7 +1264,8 @@ _quota_infos = ['Type', 'In_use', 'Reserved', 'Limit']
 
 def _quota_show(quotas):
     quota_dict = {}
-    for resource in quotas._info:
+    quotas_info_dict = utils.unicode_key_value_to_string(quotas._info)
+    for resource in quotas_info_dict.keys():
         good_name = False
         for name in _quota_resources:
             if resource.startswith(name):
@@ -1278,7 +1278,8 @@ def _quota_show(quotas):
 
 def _quota_usage_show(quotas):
     quota_list = []
-    for resource in quotas._info.keys():
+    quotas_info_dict = utils.unicode_key_value_to_string(quotas._info)
+    for resource in quotas_info_dict.keys():
         good_name = False
         for name in _quota_resources:
             if resource.startswith(name):
